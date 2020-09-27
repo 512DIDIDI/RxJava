@@ -1,5 +1,7 @@
 package com.dididi.rxjava.impl
 
+import java.lang.NullPointerException
+
 /**
  * author: yechao
  * desc:
@@ -9,9 +11,13 @@ package com.dididi.rxjava.impl
 fun main(){
     Observable.create<String> {
         it.onNext("hello")
-    }.subscribe(object :Observer<String>{
-        override fun onNext(t: String) {
-            println(t)
-        }
+        it.onCompleted()
+        it.onError(NullPointerException())
+    }.subscribe({
+        println(it)
+    },{
+        println("completed")
+    },{
+        println("$it")
     })
 }
