@@ -1,23 +1,29 @@
 package com.dididi.rxjava.impl
 
-import java.lang.NullPointerException
-
 /**
  * author: yechao
  * desc:
  * createTime:2020-09-25
  */
 
-fun main(){
+fun main() {
     Observable.create<String> {
-        it.onNext("hello")
+        it.onNext("create")
         it.onCompleted()
         it.onError(NullPointerException())
-    }.subscribe({
-        println(it)
-    },{
-        println("completed")
-    },{
-        println("$it")
-    })
+    }.subscribeOn(Scheduler.io())
+        .observeOn(Scheduler.immediate())
+        .subscribe({
+            println(it)
+        }, {
+            println("create complete")
+        }, {
+            println("$it")
+        })
+    Observable.just("just1", "just2")
+        .subscribe({
+            println(it)
+        }, {
+            println("just complete")
+        })
 }
